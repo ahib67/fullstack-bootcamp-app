@@ -1,0 +1,57 @@
+/* 1. Target the whole page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #b7b7b7;  /* Soft, modern light grey */
+    color: #333333;             /* Dark charcoal text (easier to read) */
+    max-width: 1000px;           /* Limits how wide the text stretches */
+    margin: 30px auto;          /* Centers the entire page on the screen */
+    padding: 50px;              /* Adds breathing room around the edges */
+}
+
+/* 2. Target the specific Skills section by its ID */
+#skills {
+    background-color: rgb(198, 196, 196);
+    padding: 25px;
+    border-radius: 8px;         /* Rounds the sharp corners */
+    margin-top: 30px;           /* Pushes the form/content above it away */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle modern shadow */
+}
+
+/* 1. Target the Form Box */
+form {
+    background-color: rgb(218, 218, 218);
+    padding: 35px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px; /* Pushes the table section down below it */
+}
+
+/* 2. Target the Input Lines & Text Area */
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;          /* Makes the input fields fill the whole card width */
+    padding: 10px;        /* Gives text breathing room INSIDE the input box */
+    margin-top: 5px;      /* Pushes the input down slightly away from its label text */
+    margin-bottom: 15px;  /* Pushes the next label down so they don't crowd */
+    border: 1px solid #cccccc; /* Gives a soft grey frame line */
+    border-radius: 4px;   /* Slightly rounds the input box corners */
+    font-size: 1rem;
+}
+
+/* 3. Target the Submit Button */
+button {
+    background-color: #ff9102; /* Your signature peach/orange color */
+    color: rgb(255, 255, 255);
+    border: none;              /* Removes the ugly default browser border */
+    padding: 12px 20px;        /* Makes the button larger and easier to click */
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;           /* Changes the mouse pointer to a hand on hover */
+}
+
+/* 4. Button Hover Effect */
+button:hover {
+    background-color: #e07f00; /* Darkens the orange slightly when hovered */
+}
