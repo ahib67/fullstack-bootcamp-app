@@ -7,10 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ====== DATABASE CONFIGURATION ======
+const cleanURI = process.env.DATABASE_URL 
+  ? process.env.DATABASE_URL.split('?')[0] 
+  : '';
+
 const pool = new Pool({
-  // Forces the app to grab the encrypted Service URI string from Vercel
-  connectionString: process.env.DATABASE_URL,
-  // Enforces the mandatory SSL encryption layer required by Aiven cloud servers
+  connectionString: cleanURI,
   ssl: {
     rejectUnauthorized: false
   }
