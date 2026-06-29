@@ -8,11 +8,12 @@ const PORT = process.env.PORT || 3000;
 
 // ====== DATABASE CONFIGURATION ======
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'bootcamp_db',
-    password: 'ah2005ib', // ⚠️ Remember to put your actual database password here!
-    port: 5432,
+  // Forces the app to grab the encrypted Service URI string from Vercel
+  connectionString: process.env.DATABASE_URL,
+  // Enforces the mandatory SSL encryption layer required by Aiven cloud servers
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // ====== MIDDLEWARE LAYER ======
