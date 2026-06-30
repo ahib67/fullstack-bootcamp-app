@@ -159,6 +159,63 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+// ====== ENGINEERING LOG ENDPOINTS ======
+
+// 1. Create a New Activity Log (Protected)
+app.post('/api/logs', verifyToken, async (req, res) => {
+    const { title, content } = req.body;
+
+    if (!title || !content) {
+        return res.status(400).json({ success: false, message: "Title and content are required." });
+    }
+
+    try {
+        // req.user.id is automatically populated by our verifyToken middleware shield
+        const queryText = `
+            INSERT INTO notes (user_id, title, content) 
+            VALUES ($1, $2, $3) 
+            RETURNING id, user_id, title, content, created_at;
+        `;
+        
+        const result = await pool.query(queryText, [req.user.id, title, content]);
+
+        res.status(201).json({
+            success: true,
+            message: "Operational snapshot successfully committed to cloud storage.",
+            log: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error("Log engine write crash:", error);
+        res.status(500).json({ success: false, message: "Internal server error during data serialization." });
+    }
+});
+
+// 2. Fetch Only the Logged-In User's Activity Logs (Protected)
+app.get('/api/logs', verifyToken, async (req, res) => {
+    try {
+        // Strictly filter using the verified token ID to prevent cross-user data leakage
+        const queryText = `
+            SELECT id, title, content, created_at 
+            FROM notes 
+            WHERE user_id = $1 
+            ORDER BY created_at DESC;
+        `;
+        
+        const result = await pool.query(queryText, [req.user.id]);
+
+        res.status(200).json({
+            success: true,
+            totalLogs: result.rows.length,
+            logs: result.rows
+        });
+
+    } catch (error) {
+        console.error("Log engine fetch crash:", error);
+        res.status(500).json({ success: false, message: "Internal server error during data isolation lookup." });
+    }
+});
+
 // 3. Secured Endpoint (Requires a valid token to read)
 // We inject 'verifyToken' right in the middle as a defensive shield
 app.get('/api/user/dashboard', verifyToken, (req, res) => {
